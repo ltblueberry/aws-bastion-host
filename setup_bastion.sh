@@ -167,5 +167,24 @@ done
 
 INTERNAL_INSTANCE_PRIVATE_IP_ADDRESS="$(echo $INTERNAL_INSTANCE_INFO | jq -r .Reservations[0].Instances[0].PrivateIpAddress)"
 
+echo 
 echo "Bastion PUBLIC IP address: $BASTION_INSTANCE_PUBLIC_IP_ADDRESS"
 echo "Internal host PRIVATE IP address: $INTERNAL_INSTANCE_PRIVATE_IP_ADDRESS"
+echo
+
+echo "Host bastion
+  HostName ${BASTION_INSTANCE_PUBLIC_IP_ADDRESS}
+  IdentityFile ~/.ssh/aws_ec2_key_pair.pem
+  User ubuntu
+
+Host internal
+  HostName ${INTERNAL_INSTANCE_PRIVATE_IP_ADDRESS}
+  IdentityFile ~/.ssh/aws_ec2_key_pair.pem
+  User ubuntu
+  ProxyCommand ssh -W %h:%p ubuntu@bastion
+  " >> ~/.ssh/config
+
+echo
+echo "Execute \"ssh bastion\" to connect to bastion host."
+echo "Execute \"ssh internal\" to connect to internal host."
+echo

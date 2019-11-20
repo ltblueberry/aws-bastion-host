@@ -14,3 +14,9 @@ bash setup_bastion.sh
 ```
 
 *Script is not repeatable.*
+
+## License
+
+**[MIT License](LICENSE)**
+
+Copyright (c) 2019 [ltblueberry](https://github.com/ltblueberry)
